@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "935469610937",
+    "project_id": "hocfirebase-d1eac",
+    "storage_bucket": "hocfirebase-d1eac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935469610937:android:4075186e45979fca3ca868",
+        "android_client_info": {
+          "package_name": "com.hocfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUC-J1eD_IsO3TREGSEQs-7_HmobjHggA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
