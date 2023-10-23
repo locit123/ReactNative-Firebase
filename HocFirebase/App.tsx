@@ -16,11 +16,12 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import AppScreens from './src/Screens/AppScreens';
 
 function App(): JSX.Element {
   return (
     <View>
-      <Text>hllo</Text>
+      <AppScreens />
     </View>
   );
 }
