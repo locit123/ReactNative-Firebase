@@ -7,64 +7,55 @@ import {
   TouchableOpacity,
   StatusBar,
   FlatList,
+  ToastAndroid,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import database from '@react-native-firebase/database';
+import Modall from '../Components/Modall';
+import auth from '@react-native-firebase/auth';
 
 const AppScreens = () => {
-  const [isInput, setIsInput] = useState('');
-  const [list, setList] = useState(undefined);
-
-  //hàm Thêm Database
-  const handleClickAdd = async () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  //SIGN UP
+  const handleSign = async () => {
     try {
-      //.ref('tên tập hợp cha/key 1').set({value: 'loc'})
-      const index = list.length;
-      const res = await database().ref(`todo/${index}`).set({
-        //truyền vào giá trị đã nhận từ TextInput
-        name: isInput,
-      });
-      console.log(res);
+      console.log('email=>', email);
+      console.log('password=>', password);
+      const res = await auth().createUserWithEmailAndPassword(email, password);
+      console.log('res=>', res);
     } catch (error) {
       console.log(error);
+      setMessage(error.message);
     }
   };
-  //hàm GET database
-  const getDatabase = async () => {
-    try {
-      //.on('value',(nhận vào function)=>{trả về funtction.val()}) : là hàm để lắng nghe và tích cực thay đổi giá trị khi có sự thay đổi
-      const data = await database()
-        .ref('todo')
-        .on('value', snapshot => {
-          console.log('SNAPSHOT=>>>>>>', setList(snapshot.val()));
-        });
-      console.log('data=>>>>>>>>', data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getDatabase();
-  }, []);
-
   return (
     <View style={styles.Container}>
       <StatusBar hidden={true} />
 
       <Text style={{fontSize: 30, fontWeight: 'bold', color: 'white'}}>
-        TODO APP
+        META HUB
       </Text>
       <View>
         <TextInput
-          value={isInput}
+          value={email}
           style={styles.Ip}
-          placeholder="Enter"
-          onChangeText={value => setIsInput(value)}
+          placeholder="Enter email"
+          onChangeText={value => setEmail(value)}
         />
+        <TextInput
+          value={password}
+          style={styles.Ip}
+          placeholder="Enter password"
+          secureTextEntry={true}
+          onChangeText={value => setPassword(value)}
+        />
+
         <TouchableOpacity
-          onPress={handleClickAdd}
+          onPress={handleSign}
           style={{
             backgroundColor: 'white',
             marginTop: 20,
@@ -72,28 +63,10 @@ const AppScreens = () => {
             borderRadius: 20,
           }}>
           <Text style={{textAlign: 'center', color: 'black', fontSize: 18}}>
-            Add
+            Sign up
           </Text>
         </TouchableOpacity>
-        <Text style={{fontSize: 30, color: 'white', fontWeight: 'bold'}}>
-          TODO LIST
-        </Text>
-
-        <View style={{flex: 1}}>
-          <FlatList
-            data={list}
-            renderItem={({item}) => {
-              console.log(item);
-              if (item !== null) {
-                return (
-                  <View>
-                    <Text>{item.name}</Text>
-                  </View>
-                );
-              }
-            }}
-          />
-        </View>
+        <Text>{message}</Text>
       </View>
     </View>
   );

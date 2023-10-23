@@ -17,6 +17,7 @@ import {
   View,
 } from 'react-native';
 import AppScreens from './src/Screens/AppScreens';
+import Modall from './src/Components/Modall';
 
 function App(): JSX.Element {
   return (
