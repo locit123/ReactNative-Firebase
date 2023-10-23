@@ -2,31 +2,32 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
-  Dimensions,
   TouchableOpacity,
-  StatusBar,
-  FlatList,
-  ToastAndroid,
-  Alert,
+  Dimensions,
+  TextInput,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import firestore from '@react-native-firebase/firestore';
-import database from '@react-native-firebase/database';
-import Modall from '../Components/Modall';
+import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 
-const AppScreens = () => {
+const {width, height} = Dimensions.get('window');
+
+const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  //SIGN UP
-  const handleSign = async () => {
+
+  //Login
+  const handleLogin = async () => {
     try {
       console.log('email=>', email);
       console.log('password=>', password);
-      const res = await auth().createUserWithEmailAndPassword(email, password);
-      console.log('res=>', res);
+      const getLogin = await auth().signInWithEmailAndPassword(email, password);
+      console.log('login=>', getLogin);
+      navigation.navigate('home', {
+        email: getLogin.user.email,
+        uid: getLogin.user.uid,
+      });
+      setMessage('');
     } catch (error) {
       console.log(error);
       setMessage(error.message);
@@ -34,10 +35,8 @@ const AppScreens = () => {
   };
   return (
     <View style={styles.Container}>
-      <StatusBar hidden={true} />
-
       <Text style={{fontSize: 30, fontWeight: 'bold', color: 'white'}}>
-        META HUB
+        Login
       </Text>
       <View>
         <TextInput
@@ -55,7 +54,7 @@ const AppScreens = () => {
         />
 
         <TouchableOpacity
-          onPress={handleSign}
+          onPress={handleLogin}
           style={{
             backgroundColor: 'white',
             marginTop: 20,
@@ -63,7 +62,12 @@ const AppScreens = () => {
             borderRadius: 20,
           }}>
           <Text style={{textAlign: 'center', color: 'black', fontSize: 18}}>
-            Sign up
+            Login
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('sign')}>
+          <Text style={{textAlign: 'center', color: 'black', fontSize: 18}}>
+            New Create Sing Up
           </Text>
         </TouchableOpacity>
         <Text>{message}</Text>
@@ -71,8 +75,8 @@ const AppScreens = () => {
     </View>
   );
 };
-const {width, height} = Dimensions.get('window');
-export default AppScreens;
+
+export default Login;
 
 const styles = StyleSheet.create({
   Container: {

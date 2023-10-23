@@ -16,14 +16,25 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import AppScreens from './src/Screens/AppScreens';
-import Modall from './src/Components/Modall';
+import AppScreens from './src/Screens/Sign';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+import Sign from './src/Screens/Sign';
+import Login from './src/Screens/Login';
+import Home from './src/Screens/Home';
+const Stack = createNativeStackNavigator();
 function App(): JSX.Element {
   return (
-    <View>
-      <AppScreens />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="login"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="sign" component={Sign} />
+        <Stack.Screen name="login" component={Login} />
+        <Stack.Screen name="home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
